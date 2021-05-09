@@ -23,8 +23,6 @@ yargs.command({
 
       client.write(JSON.stringify(peticion));
 
-      console.log(chalk.green(`Estas son tus notas, ${argv.user}: `));
-
       let wholeData = '';
       client.on('data', (dataChunk) => {
         wholeData += dataChunk.toString();
@@ -39,7 +37,12 @@ yargs.command({
       });
 
       client.on('request', (data) => {
-        console.log(chalk.keyword(data.col).bold(data.tit));
+        if (data.success === 'true') {
+          console.log(chalk.bgGreen(`Estas son tus notas, ${argv.user}: `));
+          console.log(chalk.keyword(data.col).bold(data.tit));
+        } else if (data.success === 'false') {
+          console.log(chalk.bgRed(data.nonotes));
+        }
       });
     }
   },
@@ -72,8 +75,6 @@ yargs.command({
 
       client.write(JSON.stringify(peticion));
 
-      // console.log(chalk.green(`Estas son tus notas, ${argv.user}: `));
-
       let wholeData = '';
       client.on('data', (dataChunk) => {
         wholeData += dataChunk.toString();
@@ -88,10 +89,14 @@ yargs.command({
       });
 
       client.on('request', (data) => {
-        if (data.tipo === 'read') {
-          console.log(chalk.green(`Esta es la nota que estabas buscando, ${argv.user}: `));
+        if (data.tipo === 'read' && data.success === 'true') {
+          console.log(chalk.bgGreen(`Esta es la nota que estabas buscando, ${argv.user}: `));
           console.log(chalk.keyword(data.col).bold(data.tit));
           console.log(chalk.keyword(data.col).bold(data.cur));
+        } else if (data.tipo === 'read' && data.success === 'false' && data.nonotes) {
+          console.log(chalk.bgRed(`${data.nonotes}`));
+        } else if (data.tipo === 'read' && data.success === 'false' && data.nonamenotes) {
+          console.log(chalk.bgRed(`${data.nonamenotes}`));
         }
       });
     }
@@ -141,6 +146,10 @@ yargs.command({
       client.on('request', (data) => {
         if (data.success === 'true') {
           console.log(chalk.green(`Se ha eliminado la nota ${data.tit} del usuario ${argv.user}`));
+        } else if (data.success === 'false' && data.nonotes) {
+          console.log(chalk.red(`${data.nonotes}`));
+        } else if (data.success === 'false' && data.nonamenotes) {
+          console.log(chalk.red(`${data.nonamenotes}`));
         } else {
           console.log(chalk.red(`Ha ocurrido un error inesperado`));
         }
@@ -205,6 +214,10 @@ yargs.command({
       client.on('request', (data) => {
         if (data.success === 'true') {
           console.log(chalk.green(`Se ha modificado la nota ${data.tit} del usuario ${argv.user}`));
+        } else if (data.success === 'false' && data.nonotes) {
+          console.log(chalk.red(`${data.nonotes}`));
+        } else if (data.success === 'false' && data.nonamenotes) {
+          console.log(chalk.red(`${data.nonamenotes}`));
         } else {
           console.log(chalk.red(`Ha ocurrido un error inesperado`));
         }
@@ -269,6 +282,8 @@ yargs.command({
       client.on('request', (data) => {
         if (data.success === 'true') {
           console.log(chalk.green(`Se ha añadido la nota ${data.tit} del usuario ${argv.user}`));
+        } else if (data.success === 'false') {
+          console.log(chalk.red(`${data.samename}`));
         } else {
           console.log(chalk.red(`Ha ocurrido un error inesperado`));
         }
