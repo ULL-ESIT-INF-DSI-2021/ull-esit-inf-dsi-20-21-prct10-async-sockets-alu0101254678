@@ -339,6 +339,25 @@ Recordamos que una nota tiene un formato como el que se muestra a continuación:
 
 ## **Ejemplos de uso de la Aplicación**
 
+![server](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct10-async-sockets-alu0101254678/blob/master/img/pr10/server.png?raw=true)
+
+![client-list](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct10-async-sockets-alu0101254678/blob/master/img/pr10/client-list.png?raw=true)
+
+![client-add-list-read](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct10-async-sockets-alu0101254678/blob/master/img/pr10/client-add-list-read.png?raw=true)
+
+![server-some-commands](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct10-async-sockets-alu0101254678/blob/master/img/pr10/server-commands-message.png?raw=true)
 ## **Conclusiones**
+La realización de las dos prácticas anteriores a esta, práctica 8, y la práctica 9, y esta, en concreto, están relacionadas entre sí,ya que el objetivo final
+es poder manejar las notas de los usuarios y poder procesarlas, sin embargo, la práctica 10 es algo especial ya que se maneja un nuevo concepto que son los
+sockets, los canales de comunicación, y en esencia, estamos definiendo un protocolo de comunicación entre un cliente y un servidor.
+
+También hemos vuelto a necesitar el manejo de ficheros, y el manejo de los parámetros con yargs, por último, los mensajes se muestran en color gracias al paquete
+chalk. Por último, hemos descubierto la importancia del formato de intercambio de archivos, el json.
 
 ## **Bibliografía**
+1.  Enunciado de la [Práctica 8](https://ull-esit-inf-dsi-2021.github.io/prct08-filesystem-notes-app/) - Aplicación de procesamiento de notas de texto.
+2.  ¿Cómo funcionan los [eventos](https://dev.to/lydiahallie/javascript-visualized-event-loop-3dif)?
+3.  ¿Cómo funciona el paquete [yargs](https://www.npmjs.com/package/yargs)?
+4.  ¿Cómo funciona el paquete [chalk](https://www.npmjs.com/package/chalk)?
+5.  Módulo [net](https://nodejs.org/dist/latest-v16.x/docs/api/net.html) para el manejo de sockets en Node.js
+6.  Documentación del [sistema de ficheros](https://nodejs.org/api/fs.html) de Node.js
