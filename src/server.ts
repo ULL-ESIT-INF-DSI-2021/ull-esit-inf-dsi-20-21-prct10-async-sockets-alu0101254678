@@ -150,7 +150,7 @@ net.createServer((connection) => {
           };
           fs.unlinkSync(path.resolve(__dirname, `../users/${usuario}/${file}`));
           const data: string = JSON.stringify(objetoNotas, null, 2);
-          fs.writeFileSync((path.resolve(__dirname, `../users/${usuario}/${file}.json`)), data);
+          fs.writeFileSync((path.resolve(__dirname, `../users/${usuario}/${file}`)), data);
           connection.write(`{"tipo": "mod", "success": "true", "tit": "${titulo}"}\n`);
           connection.end();
         }
