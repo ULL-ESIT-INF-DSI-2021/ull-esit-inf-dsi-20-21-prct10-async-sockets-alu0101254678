@@ -1,0 +1,10 @@
+{
+  "name": "Implementación de un Cliente y un Servidor de la Aplicación de Procesamiento de Notas mediante Sockets en Node.js",
+  "entryPoints": [
+    "./src"
+  ],
+  "out": "./documentacion",
+  "theme": "default",
+  "highlightTheme": "github-light",
+  "media": "./images"
+}

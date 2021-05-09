@@ -2,6 +2,11 @@ import * as yargs from 'yargs';
 import * as net from 'net';
 import chalk from 'chalk';
 
+/**
+ * Comando que sirve para listar las notas de un usuario, mostrando
+ * el resultado del lado del cliente, tiene un argumento que es el usuario
+ * y en el manejador se conecta al servidor
+ */
 yargs.command({
   command: 'list',
   describe: 'Lista las notas del usuario',
@@ -48,6 +53,11 @@ yargs.command({
   },
 });
 
+/**
+ * Comando que sirve para leer una nota concreta del usuario, dandole
+ * el titulo, tiene dos argumentos que son el usuario y el titulo, y en el
+ * manejador es donde se realiza la conexion al servidor
+ */
 yargs.command({
   command: 'read',
   describe: 'Lee una nota concreta del usuario',
@@ -103,6 +113,11 @@ yargs.command({
   },
 });
 
+/**
+ * Comando que sirve para eliminar una nota del usuario, tiene dos argumentos que son
+ * el usuario y el titulo de la nota que quiere eliminar, en el manejador es donde se conecta
+ * al cliente, todos los comandos por un puerto determinado
+ */
 yargs.command({
   command: 'remove',
   describe: 'Elimina una nota del usuario',
@@ -143,6 +158,9 @@ yargs.command({
         }
       });
 
+      /**
+       * Cuando el cliente recibe los datos los procesa con un evento que creamos aqui
+       */
       client.on('request', (data) => {
         if (data.success === 'true') {
           console.log(chalk.green(`Se ha eliminado la nota ${data.tit} del usuario ${argv.user}`));
@@ -158,6 +176,11 @@ yargs.command({
   },
 });
 
+/**
+ * Comando que sirve para modificar una nota del usuario, entonces como argumentos
+ * tiene que tener el usuario, el titulo de la nota, el cuerpo y el color, podrían
+ * haberse puesta de forma opcional pero decidimos que fueran todos obligatorios
+ */
 yargs.command({
   command: 'mod',
   describe: 'Modifica una nota del usuario',
@@ -226,6 +249,12 @@ yargs.command({
   },
 });
 
+/**
+ * Comando que sirve para añadir una nota, se tienen que dar entonces todos los argumentos
+ * para construir la nota, tanto el usuario, el titulo, el cuerpo y el color de la nota que se
+ * desea añadir, en todos los comandos en sus manejadores se controlan los errores que
+ * puedan surgir
+ */
 yargs.command({
   command: 'add',
   describe: 'Añade una nota en el directorio del usuario',
@@ -292,4 +321,8 @@ yargs.command({
   },
 });
 
+/**
+ * Esta sentencia hace que se analice lo que se pasa por la línea
+ * de comandos
+ */
 yargs.parse();

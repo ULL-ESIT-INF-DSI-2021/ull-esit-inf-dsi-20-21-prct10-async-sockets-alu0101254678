@@ -2,6 +2,13 @@ import * as net from 'net';
 import * as fs from 'fs';
 import path from 'path';
 
+/**
+ * Se crea un servidor, connection es un socket, que también
+ * puede emitir eventos, los datos que se envian entre el cliente
+ * y servidor se envian en formato json, por lo tanto se tiene que
+ * convertir a datos manejables, type es una de las propiedades del
+ * mensaje del cliente, con la informacion del propio comando
+ */
 net.createServer((connection) => {
   console.log('Un cliente se ha conectado');
 
@@ -31,6 +38,9 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que maneja la operacion de lectura
+   */
   connection.on('requestread', (usuario, titulo) => {
     const filenames = fs.readdirSync(path.resolve(__dirname, `../users/${usuario}`));
 
@@ -60,6 +70,10 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que maneja la operacion de lista, en todas las operaciones se tiene que abrir
+   * el directorio, lo hacemos con readdirSync, las respuestas las enviamos en json
+   */
   connection.on('requestlist', (usuario) => {
     const filenames = fs.readdirSync(path.resolve(__dirname, `../users/${usuario}`));
 
@@ -80,6 +94,11 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que maneja la operacion remove, cuando se envia una respuesta al cliente, se tien
+   * que cerrar la conecxion del lado del cliente, mientras el servidor sigue esperando, porque ya se ha
+   * procesado la informacion
+   */
   connection.on('requestremove', (usuario, titulo) => {
     const filenames = fs.readdirSync(path.resolve(__dirname, `../users/${usuario}`));
 
@@ -107,6 +126,9 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que maneja la operacion mod, recordamos que estamos ejecutando funciones asincronas
+   */
   connection.on('requestmod', (usuario, titulo, cuerpo, color) => {
     const filenames = fs.readdirSync(path.resolve(__dirname, `../users/${usuario}`));
 
@@ -140,6 +162,10 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que maneja la operacion add, todos estos eventos reciben parámetros
+   * para luego utilizarlos en el sistema de ficheros
+   */
   connection.on('requestadd', (usuario, titulo, cuerpo, color) => {
     const filenames = fs.readdirSync(path.resolve(__dirname, `../users/${usuario}`));
 
@@ -168,13 +194,22 @@ net.createServer((connection) => {
     }
   });
 
+  /**
+   * Este es el evento que se activa una vez se envia la respuesta al cliente
+   */
   connection.on('end', () => {
     console.log('Se ha terminado de procesar la respuesta y se ha enviado');
   });
 
+  /**
+   * Este es el evento que se activa cuando un cliente se desconecta, se ejecuta despues
+   * del end
+   */
   connection.on('close', () => {
     console.log('Un cliente se ha desconectado');
   });
 }).listen(60300, () => {
   console.log('Esperando a que los clientes se conecten.');
 });
+
+// El servidor estará escuchando constantemente, en el puerto 60300
